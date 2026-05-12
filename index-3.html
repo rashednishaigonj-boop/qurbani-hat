@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>কোরবানির হাট 🕌</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Hind Siliguri',sans-serif;background:#f5f0e8;color:#1a1a1a;min-height:100vh}
+button,select,input,textarea{font-family:inherit}
+input:focus,select:focus,textarea:focus{outline:2px solid #1a6b1a;outline-offset:1px}
+header{background:linear-gradient(135deg,#1a6b1a 0%,#0d4a0d 60%,#2d8a2d 100%);position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+.hdr-inner{max-width:900px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+.logo-icon{font-size:32px}.logo-title{font-size:20px;font-weight:700;color:#fff}.logo-sub{font-size:11px;color:#a8e6a8}
+.btn-sell{background:#f4c430;color:#1a1a1a;border:none;border-radius:24px;padding:10px 18px;font-weight:700;font-size:14px;cursor:pointer}
+.btn-sell:hover{background:#e6b420}
+.eid-banner{background:rgba(255,255,255,0.1);border-top:1px solid rgba(255,255,255,0.15);text-align:center;padding:6px 16px;font-size:13px;color:#d4f7d4}
+.view{display:none}.view.active{display:block}
+main{max-width:900px;margin:0 auto;padding:20px 12px}
+main.narrow{max-width:680px}main.fm{max-width:600px}
+.filter-box{background:#fff;border-radius:16px;padding:16px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,0.08)}
+.search-input{width:100%;border:2px solid #e0d9cc;border-radius:12px;padding:12px 16px;font-size:15px;background:#faf8f4}
+.filter-btns{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.filter-btn{padding:6px 14px;border-radius:20px;border:2px solid #ddd;background:#fff;color:#555;font-size:13px;cursor:pointer;transition:all 0.2s;font-family:inherit}
+.filter-btn.active{border-color:#1a6b1a;background:#1a6b1a;color:#fff;font-weight:700}
+.filter-selects{display:flex;gap:8px;margin-top:10px}
+.filter-sel{flex:1;padding:8px 12px;border-radius:10px;border:2px solid #ddd;font-size:13px;background:#faf8f4}
+.count-label{margin-bottom:12px;font-size:14px;color:#666;padding-left:4px}.count-label strong{color:#1a6b1a}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+.card{background:#fff;border-radius:16px;overflow:hidden;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,0.08);border:1px solid #eee;transition:transform 0.2s,box-shadow 0.2s}
+.card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.15)}
+.card-body{padding:14px 16px}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px}
+.card-name{font-size:16px;font-weight:700;flex:1;margin-right:8px}
+.badge{border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;white-space:nowrap}
+.card-price{font-size:22px;font-weight:800;color:#c8401a;margin-bottom:8px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.tag{background:#f0f0e8;border-radius:20px;padding:3px 10px;font-size:12px;color:#555}
+.card-loc{font-size:13px;color:#888}.card-time{font-size:12px;color:#bbb;margin-top:4px}
+.swiper{position:relative;overflow:hidden;background:#111;user-select:none}
+.swiper-track{display:flex;height:100%;transition:transform 0.35s cubic-bezier(.4,0,.2,1)}
+.swiper-slide{flex-shrink:0;height:100%}.swiper-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.swiper-arrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.45);color:#fff;border:none;border-radius:50%;width:34px;height:34px;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.swiper-arrow.left{left:10px}.swiper-arrow.right{right:10px}
+.swiper-dots{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:5px}
+.swiper-dot{height:6px;width:6px;border-radius:3px;background:rgba(255,255,255,0.45);cursor:pointer;transition:all 0.3s}
+.swiper-dot.active{width:18px;background:#fff}
+.swiper-counter{position:absolute;top:10px;right:12px;background:rgba(0,0,0,0.5);color:#fff;font-size:12px;border-radius:20px;padding:3px 9px;font-weight:600}
+.detail-card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.1)}
+.thumb-strip{display:flex;gap:6px;padding:10px 14px;background:#f8f5f0;overflow-x:auto}
+.thumb-strip img{width:56px;height:56px;object-fit:cover;border-radius:8px;flex-shrink:0;border:2px solid #ddd}
+.detail-body{padding:20px}
+.detail-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;gap:10px}
+.detail-name{font-size:24px;font-weight:700}.detail-price{font-size:32px;font-weight:800;color:#c8401a;margin-bottom:20px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.info-box{background:#f8f5f0;border-radius:12px;padding:12px 14px}
+.info-label{font-size:11px;color:#999;margin-bottom:2px}.info-val{font-size:15px;font-weight:600}
+.desc-box{background:#f0f7f0;border-radius:12px;padding:14px 16px;margin-bottom:20px;border-left:4px solid #1a6b1a}
+.desc-title{font-size:12px;color:#1a6b1a;font-weight:700;margin-bottom:6px}.desc-text{font-size:14px;color:#444;line-height:1.7}
+.contact-box{background:linear-gradient(135deg,#1a6b1a,#0d4a0d);border-radius:16px;padding:20px;text-align:center;color:#fff}
+.contact-sub{font-size:13px;opacity:0.8;margin-bottom:8px}.contact-phone{font-size:24px;font-weight:700;margin-bottom:16px}
+.btn-call{display:inline-block;background:#f4c430;color:#1a1a1a;border-radius:30px;padding:13px 36px;font-weight:800;font-size:16px;text-decoration:none}
+.btn-back{background:#fff;border:1px solid #ddd;border-radius:20px;padding:8px 16px;margin-bottom:16px;cursor:pointer;font-size:14px;color:#555;display:inline-flex;align-items:center;box-shadow:0 1px 4px rgba(0,0,0,0.08)}
+.form-card{background:#fff;border-radius:20px;padding:24px 20px;box-shadow:0 4px 24px rgba(0,0,0,0.1)}
+.form-hdr{text-align:center;margin-bottom:24px}
+.form-title{font-size:22px;font-weight:700;margin-top:8px}.form-sub{font-size:13px;color:#888;margin-top:4px}
+.fields{display:flex;flex-direction:column;gap:16px}
+.field label{display:block;font-size:13px;font-weight:600;color:#555;margin-bottom:6px}
+.inp{width:100%;border:2px solid #e0d9cc;border-radius:10px;padding:11px 14px;font-size:15px;background:#faf8f4}
+.inp:focus{border-color:#1a6b1a}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn-submit{background:linear-gradient(135deg,#1a6b1a,#2d8a2d);color:#fff;border:none;border-radius:14px;padding:16px;font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(26,107,26,0.35);width:100%;transition:opacity 0.2s}
+.btn-submit:disabled{opacity:0.6;cursor:not-allowed}
+.success{text-align:center;padding:40px 20px;color:#1a6b1a}
+.uploader-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.thumb-prev{position:relative;width:80px;height:80px;border-radius:10px;overflow:hidden}
+.thumb-prev img{width:100%;height:100%;object-fit:cover}
+.thumb-main-lbl{position:absolute;bottom:0;left:0;right:0;background:rgba(26,107,26,0.85);font-size:9px;color:#fff;text-align:center;padding:2px 0;font-weight:700}
+.thumb-rm{position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.65);border:none;color:#fff;border-radius:50%;width:20px;height:20px;font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0}
+.uploader-add{width:80px;height:80px;border-radius:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-size:10px;font-weight:700;border:2px dashed;background:none}
+/* progress */
+.prog-wrap{background:#e0d9cc;border-radius:10px;height:8px;margin-top:8px;overflow:hidden;display:none}
+.prog-bar{height:100%;background:#1a6b1a;border-radius:10px;transition:width 0.3s;width:0%}
+.prog-label{font-size:12px;color:#555;margin-top:4px;display:none}
+/* overlay */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999;display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;color:#fff;font-size:16px;font-weight:600}
+.overlay.show{display:flex}
+.spinner{width:48px;height:48px;border:5px solid rgba(255,255,255,0.3);border-top-color:#f4c430;border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a6b1a;color:#fff;padding:12px 24px;border-radius:30px;font-size:14px;font-weight:600;z-index:1000;box-shadow:0 4px 20px rgba(0,0,0,0.3);opacity:0;transition:opacity 0.3s;white-space:nowrap}
+.toast.show{opacity:1}.toast.err{background:#c0392b}
+.skeleton{background:linear-gradient(90deg,#ece8e0 25%,#f5f0e8 50%,#ece8e0 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:16px;height:300px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.empty{text-align:center;padding:60px 20px;color:#aaa}
+footer{text-align:center;padding:30px 16px;margin-top:20px;font-size:13px;color:#aaa}
+@media(max-width:480px){.row2{grid-template-columns:1fr}.info-grid{grid-template-columns:1fr}.filter-selects{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<div id="overlay" class="overlay"><div class="spinner"></div><div id="overlayText">লোড হচ্ছে...</div></div>
+<div id="toast" class="toast"></div>
+
+<header>
+  <div class="hdr-inner">
+    <div class="logo" onclick="showView('home')">
+      <div class="logo-icon">🕌</div>
+      <div><div class="logo-title">কোরবানির হাট</div><div class="logo-sub">পশু কেনা-বেচার সহজ মাধ্যম</div></div>
+    </div>
+    <button class="btn-sell" onclick="showView('post')">＋ পশু বিক্রি করুন</button>
+  </div>
+  <div class="eid-banner">☪️ &nbsp;ঈদুল আযহা মোবারক &nbsp;|&nbsp; অ্যাকাউন্ট ছাড়াই পশু বিক্রির বিজ্ঞাপন দিন &nbsp; ☪️</div>
+</header>
+
+<!-- HOME -->
+<div id="view-home" class="view active">
+  <main>
+    <div class="filter-box">
+      <input class="search-input" id="searchInput" type="text" placeholder="🔍  পশুর নাম, ধরন বা এলাকা লিখুন..." oninput="renderCards()"/>
+      <div class="filter-btns" id="animalBtns"></div>
+      <div class="filter-selects">
+        <select class="filter-sel" id="divSelect" onchange="renderCards()"></select>
+        <select class="filter-sel" id="sortSelect" onchange="renderCards()">
+          <option>নতুন</option><option>কম দাম</option><option>বেশি দাম</option>
+        </select>
+      </div>
+    </div>
+    <div class="count-label" id="countLabel"></div>
+    <div class="grid" id="cardGrid">
+      <div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>
+    </div>
+    <div class="empty" id="emptyMsg" style="display:none">
+      <div style="font-size:64px">🔍</div>
+      <div style="font-size:18px;font-weight:600;margin-top:12px">কোনো পশু পাওয়া যায়নি</div>
+      <div style="font-size:14px;margin-top:6px">অন্য ফিল্টার চেষ্টা করুন</div>
+    </div>
+  </main>
+</div>
+
+<!-- DETAIL -->
+<div id="view-detail" class="view">
+  <main class="narrow">
+    <button class="btn-back" onclick="showView('home')">← ফিরে যান</button>
+    <div class="detail-card">
+      <div class="swiper" id="detailSwiper" style="height:340px"></div>
+      <div class="thumb-strip" id="detailThumbs"></div>
+      <div class="detail-body">
+        <div class="detail-hdr"><div class="detail-name" id="detailName"></div><span id="detailBadge" class="badge"></span></div>
+        <div class="detail-price" id="detailPrice"></div>
+        <div class="info-grid" id="detailInfo"></div>
+        <div class="desc-box" id="detailDescBox" style="display:none">
+          <div class="desc-title">📝 বিবরণ</div><div class="desc-text" id="detailDesc"></div>
+        </div>
+        <div class="contact-box">
+          <div class="contact-sub">বিক্রেতার সাথে যোগাযোগ করুন</div>
+          <div class="contact-phone" id="detailPhone"></div>
+          <a class="btn-call" id="detailCall" href="#">এখনই কল করুন</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- POST -->
+<div id="view-post" class="view">
+  <main class="fm">
+    <button class="btn-back" onclick="showView('home')">← ফিরে যান</button>
+    <div class="form-card">
+      <div class="form-hdr">
+        <div style="font-size:48px">📋</div>
+        <div class="form-title">পশু বিক্রির বিজ্ঞাপন দিন</div>
+        <div class="form-sub">অ্যাকাউন্ট লাগবে না — সরাসরি পোস্ট করুন</div>
+      </div>
+      <div id="successMsg" class="success" style="display:none">
+        <div style="font-size:72px">✅</div>
+        <div style="font-size:20px;font-weight:700;margin-top:12px">সফলভাবে পোস্ট হয়েছে!</div>
+        <div style="font-size:14px;color:#888;margin-top:8px">হোমপেজে যাচ্ছেন...</div>
+      </div>
+      <div class="fields" id="formFields">
+        <div class="field">
+          <label>📷 ছবি যোগ করুন <span style="color:#e74c3c">* (সর্বোচ্চ ৫টি)</span></label>
+          <div class="uploader-row" id="uploaderRow"></div>
+          <input type="file" id="fileInput" accept="image/*" multiple style="display:none" onchange="handleFiles(this)"/>
+          <div id="uploaderNote" style="font-size:12px;color:#e74c3c;font-weight:600">⚠️ কমপক্ষে ১টি ছবি বাধ্যতামূলক।</div>
+          <div class="prog-wrap" id="progWrap"><div class="prog-bar" id="progBar"></div></div>
+          <div class="prog-label" id="progLabel"></div>
+        </div>
+        <div id="previewWrap" style="display:none">
+          <div style="font-size:13px;font-weight:600;color:#555;margin-bottom:6px">📸 প্রিভিউ</div>
+          <div style="border-radius:12px;overflow:hidden;border:1px solid #eee">
+            <div class="swiper" id="previewSwiper" style="height:200px"></div>
+          </div>
+        </div>
+        <div class="field"><label>পশুর নাম *</label><input class="inp" id="fName" placeholder="যেমন: বড় কালো ষাঁড়"/></div>
+        <div class="row2">
+          <div class="field"><label>পশুর ধরন *</label><select class="inp" id="fType" onchange="updateSubType()"></select></div>
+          <div class="field"><label>উপ-ধরন *</label><select class="inp" id="fSubType"></select></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label>দাম (টাকা) *</label><input class="inp" id="fPrice" type="number" placeholder="৮৫০০০"/></div>
+          <div class="field"><label>ওজন</label><input class="inp" id="fWeight" placeholder="যেমন: ২৫০ কেজি"/></div>
+        </div>
+        <div class="row2">
+          <div class="field"><label>বয়স</label><input class="inp" id="fAge" placeholder="যেমন: ২ বছর"/></div>
+          <div class="field"><label>মোবাইল নম্বর *</label><input class="inp" id="fPhone" placeholder="01XXXXXXXXX"/></div>
+        </div>
+        <div class="field"><label>অবস্থান *</label><input class="inp" id="fLoc" placeholder="যেমন: ঢাকা, মিরপুর-১০"/></div>
+        <div class="field"><label>বিবরণ</label><textarea class="inp" id="fDesc" rows="4" placeholder="পশুর বিস্তারিত তথ্য লিখুন..." style="resize:vertical"></textarea></div>
+        <button class="btn-submit" id="submitBtn" onclick="handleSubmit()">✅ &nbsp; বিজ্ঞাপন প্রকাশ করুন</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<footer><div style="font-size:24px;margin-bottom:6px">🕌</div>কোরবানির হাট — সম্পূর্ণ বিনামূল্যে পশু কেনা-বেচার প্ল্যাটফর্ম</footer>
+
+<script type="module">
+import { initializeApp }   from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+
+// ── Config ────────────────────────────────────────────────────────────────────
+const FIREBASE = {
+  apiKey: "AIzaSyDAWiFSEpV6a3c6QVz4c3p18YiPL8_VL20",
+  authDomain: "qurbani-hat-22654.firebaseapp.com",
+  projectId: "qurbani-hat-22654",
+  storageBucket: "qurbani-hat-22654.firebasestorage.app",
+  messagingSenderId: "465595306423",
+  appId: "1:465595306423:web:8d4fdd2cbd7ce4f8511832"
+};
+const IMGBB_KEY = "061f4337b4e1f2cbf16348007104239e";
+
+const app = initializeApp(FIREBASE);
+const db  = getFirestore(app);
+
+// ── Static Data ───────────────────────────────────────────────────────────────
+const subTypes    = {গরু:['ষাঁড়','গাভী','বলদ'],ছাগল:['খাসি','পাঁঠা','ছাগী'],মহিষ:['ষাঁড় মহিষ','গাভী মহিষ'],দুম্বা:['ষাঁড় দুম্বা','মাদি দুম্বা'],উট:['ষাঁড় উট','মাদি উট']};
+const animalEmoji = {গরু:'🐄',ছাগল:'🐐',মহিষ:'🐃',দুম্বা:'🐑',উট:'🐪'};
+const animalColor = {গরু:'#8B4513',ছাগল:'#2d5a27',মহিষ:'#3a3a3a',দুম্বা:'#6b5344',উট:'#b8860b'};
+const animalTypes = ['সব','গরু','ছাগল','মহিষ','দুম্বা','উট'];
+const divisions   = ['সব বিভাগ','ঢাকা','চট্টগ্রাম','রাজশাহী','সিলেট','খুলনা','বরিশাল','রংপুর','ময়মনসিংহ'];
+
+let listings=[], curFilter='সব', uploadedFiles=[], uploadedPreviews=[];
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+const $=id=>document.getElementById(id);
+function showOverlay(t='লোড হচ্ছে...'){$('overlayText').textContent=t;$('overlay').classList.add('show');}
+function hideOverlay(){$('overlay').classList.remove('show');}
+function toast(msg,err=false){
+  const t=$('toast');t.textContent=msg;t.className='toast show'+(err?' err':'');
+  setTimeout(()=>{t.className='toast';},3500);
+}
+function timeAgo(ts){
+  if(!ts)return'এইমাত্র';
+  const s=Math.floor((Date.now()-ts.toDate().getTime())/1000);
+  if(s<60)return'এইমাত্র';
+  if(s<3600)return Math.floor(s/60)+' মিনিট আগে';
+  if(s<86400)return Math.floor(s/3600)+' ঘণ্টা আগে';
+  return Math.floor(s/86400)+' দিন আগে';
+}
+
+// ── ImgBB Upload ──────────────────────────────────────────────────────────────
+async function uploadToImgBB(file, index, total) {
+  $('progLabel').style.display = 'block';
+  $('progLabel').textContent   = `ছবি আপলোড হচ্ছে ${index}/${total}...`;
+  const pct = Math.round(((index-1)/total)*100);
+  $('progBar').style.width = pct + '%';
+
+  const formData = new FormData();
+  formData.append('image', file);
+  formData.append('key', IMGBB_KEY);
+
+  const res  = await fetch('https://api.imgbb.com/1/upload', {method:'POST', body:formData});
+  const json = await res.json();
+
+  if (!json.success) throw new Error('ImgBB upload failed: ' + json.error?.message);
+  $('progBar').style.width = Math.round((index/total)*100) + '%';
+  return json.data.url; // permanent direct image URL
+}
+
+// ── Swiper ────────────────────────────────────────────────────────────────────
+function buildSwiper(container, images, h) {
+  container.style.height = h+'px'; container.innerHTML='';
+  if(!images||!images.length){
+    container.innerHTML=`<div style="height:100%;display:flex;align-items:center;justify-content:center;font-size:60px;background:#f0ebe0">🐄</div>`;
+    return;
+  }
+  let idx=0;
+  const track=document.createElement('div');track.className='swiper-track';track.style.width=(images.length*100)+'%';
+  images.forEach(src=>{
+    const s=document.createElement('div');s.className='swiper-slide';s.style.width=(100/images.length)+'%';
+    const img=document.createElement('img');img.src=src;img.alt='';img.loading='lazy';
+    s.appendChild(img);track.appendChild(s);
+  });
+  container.appendChild(track);
+  function upd(){
+    track.style.transform=`translateX(-${(idx/images.length)*100}%)`;
+    container.querySelectorAll('.swiper-dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+    const c=container.querySelector('.swiper-counter');if(c)c.textContent=`${idx+1}/${images.length}`;
+    const l=container.querySelector('.swiper-arrow.left');if(l)l.style.display=idx>0?'flex':'none';
+    const r=container.querySelector('.swiper-arrow.right');if(r)r.style.display=idx<images.length-1?'flex':'none';
+  }
+  if(images.length>1){
+    const l=document.createElement('button');l.className='swiper-arrow left';l.textContent='‹';
+    l.onclick=e=>{e.stopPropagation();idx=Math.max(0,idx-1);upd();};
+    const r=document.createElement('button');r.className='swiper-arrow right';r.textContent='›';
+    r.onclick=e=>{e.stopPropagation();idx=Math.min(images.length-1,idx+1);upd();};
+    const dots=document.createElement('div');dots.className='swiper-dots';
+    images.forEach((_,i)=>{const d=document.createElement('div');d.className='swiper-dot'+(i===0?' active':'');d.onclick=e=>{e.stopPropagation();idx=i;upd();};dots.appendChild(d);});
+    const ctr=document.createElement('div');ctr.className='swiper-counter';ctr.textContent=`1/${images.length}`;
+    container.appendChild(l);container.appendChild(r);container.appendChild(dots);container.appendChild(ctr);
+    l.style.display='none';
+  }
+  let sx=null;
+  container.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;});
+  container.addEventListener('touchend',e=>{
+    if(sx===null)return;const dx=e.changedTouches[0].clientX-sx;
+    if(dx<-40)idx=Math.min(images.length-1,idx+1);
+    if(dx>40)idx=Math.max(0,idx-1);
+    sx=null;upd();
+  });
+}
+
+// ── Views ─────────────────────────────────────────────────────────────────────
+window.showView=function(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  $('view-'+name).classList.add('active');window.scrollTo(0,0);
+  if(name==='home')renderCards();
+  if(name==='post')initForm();
+};
+
+// ── Home ──────────────────────────────────────────────────────────────────────
+function initHome(){
+  const btns=$('animalBtns');
+  animalTypes.forEach(t=>{
+    const b=document.createElement('button');b.className='filter-btn'+(t==='সব'?' active':'');
+    b.textContent=(animalEmoji[t]||'')+' '+t;
+    b.onclick=()=>{curFilter=t;btns.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderCards();};
+    btns.appendChild(b);
+  });
+  const ds=$('divSelect');divisions.forEach(d=>{const o=document.createElement('option');o.textContent=d;ds.appendChild(o);});
+}
+
+async function loadListings(){
+  try{
+    const snap=await getDocs(query(collection(db,'listings'),orderBy('postedAt','desc')));
+    listings=snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderCards();
+  }catch(e){
+    console.error(e);
+    toast('ডাটা লোড করতে সমস্যা হয়েছে। Firebase Rules চেক করুন।',true);
+    $('cardGrid').innerHTML='';
+  }
+}
+
+window.renderCards=function(){
+  const q=$('searchInput').value, div=$('divSelect').value, sort=$('sortSelect').value;
+  let f=listings
+    .filter(l=>curFilter==='সব'||l.type===curFilter)
+    .filter(l=>div==='সব বিভাগ'||l.location.includes(div))
+    .filter(l=>l.name.includes(q)||l.type.includes(q)||l.location.includes(q)||(l.subType||'').includes(q))
+    .sort((a,b)=>sort==='কম দাম'?a.price-b.price:sort==='বেশি দাম'?b.price-a.price:0);
+  $('countLabel').innerHTML=`মোট <strong>${f.length}টি</strong> পশু পাওয়া গেছে`;
+  $('emptyMsg').style.display=f.length===0?'block':'none';
+  const grid=$('cardGrid');grid.innerHTML='';
+  f.forEach(l=>{
+    const card=document.createElement('div');card.className='card';card.onclick=()=>openDetail(l);
+    const sw=document.createElement('div');sw.onclick=e=>e.stopPropagation();
+    const sel=document.createElement('div');sel.className='swiper';sw.appendChild(sel);card.appendChild(sw);
+    buildSwiper(sel,l.images||[],200);
+    const col=animalColor[l.type]||'#888';
+    const body=document.createElement('div');body.className='card-body';
+    body.innerHTML=`
+      <div class="card-header"><div class="card-name">${l.name}</div>
+      <span class="badge" style="background:${col}22;color:${col}">${l.subType||l.type}</span></div>
+      <div class="card-price">৳ ${Number(l.price).toLocaleString('bn-BD')}</div>
+      <div class="tags">${l.weight?`<span class="tag">⚖️ ${l.weight}</span>`:''}${l.age?`<span class="tag">📅 ${l.age}</span>`:''}</div>
+      <div class="card-loc">📍 ${l.location}</div>
+      <div class="card-time">🕐 ${timeAgo(l.postedAt)}</div>`;
+    card.appendChild(body);grid.appendChild(card);
+  });
+};
+
+// ── Detail ────────────────────────────────────────────────────────────────────
+function openDetail(l){
+  showView('detail');
+  buildSwiper($('detailSwiper'),l.images||[],340);
+  const strip=$('detailThumbs');
+  strip.style.display=(l.images&&l.images.length>1)?'flex':'none';strip.innerHTML='';
+  if(l.images&&l.images.length>1)l.images.forEach(src=>{const img=document.createElement('img');img.src=src;img.loading='lazy';strip.appendChild(img);});
+  const col=animalColor[l.type]||'#888';
+  $('detailName').textContent=l.name;
+  const badge=$('detailBadge');
+  badge.textContent=(animalEmoji[l.type]||'')+' '+(l.subType||l.type);
+  badge.style=`background:${col}22;color:${col};border-radius:20px;padding:4px 12px;font-size:13px;font-weight:700`;
+  $('detailPrice').textContent='৳ '+Number(l.price).toLocaleString('bn-BD');
+  $('detailInfo').innerHTML=[
+    {icon:'⚖️',label:'ওজন',val:l.weight},{icon:'📅',label:'বয়স',val:l.age},
+    {icon:'📍',label:'অবস্থান',val:l.location},{icon:'🕐',label:'পোস্টের সময়',val:timeAgo(l.postedAt)}
+  ].filter(i=>i.val).map(i=>`<div class="info-box"><div class="info-label">${i.icon} ${i.label}</div><div class="info-val">${i.val}</div></div>`).join('');
+  if(l.description){$('detailDescBox').style.display='block';$('detailDesc').textContent=l.description;}
+  else $('detailDescBox').style.display='none';
+  $('detailPhone').textContent='📞 '+l.phone;
+  $('detailCall').href='tel:'+l.phone;
+}
+
+// ── Form ──────────────────────────────────────────────────────────────────────
+window.initForm=function(){
+  uploadedFiles=[];uploadedPreviews=[];
+  $('successMsg').style.display='none';$('formFields').style.display='flex';$('submitBtn').disabled=false;
+  ['fName','fPrice','fWeight','fAge','fPhone','fLoc','fDesc'].forEach(id=>$(id).value='');
+  const ft=$('fType');ft.innerHTML='';
+  Object.keys(subTypes).forEach(t=>{const o=document.createElement('option');o.textContent=t;ft.appendChild(o);});
+  updateSubType();renderUploader();
+};
+
+window.updateSubType=function(){
+  const t=$('fType').value,s=$('fSubType');s.innerHTML='';
+  (subTypes[t]||[]).forEach(v=>{const o=document.createElement('option');o.textContent=v;s.appendChild(o);});
+};
+
+function renderUploader(){
+  const row=$('uploaderRow');row.innerHTML='';
+  uploadedPreviews.forEach((src,i)=>{
+    const w=document.createElement('div');w.className='thumb-prev';
+    w.style.border=`2px solid ${i===0?'#1a6b1a':'#ccc'}`;
+    w.innerHTML=`<img src="${src}"/>${i===0?'<div class="thumb-main-lbl">প্রধান ছবি</div>':''}<button class="thumb-rm" onclick="removeImg(${i})">×</button>`;
+    row.appendChild(w);
+  });
+  if(uploadedFiles.length<5){
+    const btn=document.createElement('button');btn.className='uploader-add';
+    btn.style=uploadedFiles.length===0
+      ?'border-color:#e74c3c;background:#fff5f5;color:#e74c3c'
+      :'border-color:#1a6b1a;background:#f0f7f0;color:#1a6b1a';
+    btn.innerHTML=`<span style="font-size:24px">📷</span><span>${uploadedFiles.length===0?'বাধ্যতামূলক':'+ যোগ করুন'}</span>`;
+    btn.onclick=()=>$('fileInput').click();row.appendChild(btn);
+  }
+  const note=$('uploaderNote');
+  if(uploadedFiles.length===0){note.style.color='#e74c3c';note.style.fontWeight='600';note.textContent='⚠️ কমপক্ষে ১টি ছবি বাধ্যতামূলক।';}
+  else{note.style.color='#1a6b1a';note.style.fontWeight='normal';note.textContent=`✅ ${uploadedFiles.length}/৫টি ছবি নির্বাচিত`;}
+  const pw=$('previewWrap');
+  if(uploadedPreviews.length>0){pw.style.display='block';buildSwiper($('previewSwiper'),uploadedPreviews,200);}
+  else pw.style.display='none';
+}
+
+window.removeImg=function(i){
+  uploadedFiles.splice(i,1);
+  URL.revokeObjectURL(uploadedPreviews[i]);
+  uploadedPreviews.splice(i,1);
+  renderUploader();
+};
+
+window.handleFiles=function(input){
+  const rem=5-uploadedFiles.length;
+  Array.from(input.files).slice(0,rem).forEach(f=>{
+    uploadedFiles.push(f);
+    uploadedPreviews.push(URL.createObjectURL(f));
+  });
+  renderUploader();input.value='';
+};
+
+window.handleSubmit=async function(){
+  const name=$('fName').value.trim(), price=$('fPrice').value.trim(),
+        phone=$('fPhone').value.trim(), loc=$('fLoc').value.trim();
+  if(!name||!price||!phone||!loc){toast('সব তারকাচিহ্নিত ঘর পূরণ করুন।',true);return;}
+  if(!uploadedFiles.length){toast('কমপক্ষে ১টি ছবি যোগ করুন।',true);return;}
+
+  $('submitBtn').disabled=true;
+  $('progWrap').style.display='block';
+  $('progBar').style.width='0%';
+  showOverlay('ছবি আপলোড হচ্ছে...');
+
+  try{
+    // ── Upload all images to ImgBB ──
+    const imageUrls=[];
+    for(let i=0;i<uploadedFiles.length;i++){
+      const url=await uploadToImgBB(uploadedFiles[i], i+1, uploadedFiles.length);
+      imageUrls.push(url);
+    }
+    $('progBar').style.width='100%';
+    showOverlay('পোস্ট সেভ হচ্ছে...');
+
+    // ── Save to Firestore ──
+    await addDoc(collection(db,'listings'),{
+      name, price:parseInt(price),
+      type:$('fType').value, subType:$('fSubType').value,
+      weight:$('fWeight').value.trim(), age:$('fAge').value.trim(),
+      location:loc, phone, description:$('fDesc').value.trim(),
+      images:imageUrls,
+      postedAt:serverTimestamp()
+    });
+
+    hideOverlay();
+    $('formFields').style.display='none';
+    $('successMsg').style.display='block';
+    toast('সফলভাবে পোস্ট হয়েছে! ✅');
+    await loadListings();
+    setTimeout(()=>showView('home'), 2200);
+
+  }catch(err){
+    hideOverlay();
+    $('submitBtn').disabled=false;
+    $('progWrap').style.display='none';
+    $('progLabel').style.display='none';
+    console.error(err);
+    toast('সমস্যা হয়েছে: '+err.message, true);
+  }
+};
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+initHome();
+showOverlay('পশুর তালিকা লোড হচ্ছে...');
+loadListings().then(hideOverlay).catch(()=>{hideOverlay();});
+</script>
+</body>
+</html>
